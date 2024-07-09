@@ -47,8 +47,8 @@ def query_all(li, start: int = 0, end: int = -1, rule: str = "updated"):
         return {"message": "rule error, please use 'created'/'updated'"}
 
     posts = session.query(Post).order_by(desc(rule)).offset(start).limit(end - start).all()
-    last_update_time = session.query(Post).limit(1000).with_entities(Post.createdAt).all()
-    last_update_time = max(x["createdAt"].strftime("%Y-%m-%d %H:%M:%S") for x in last_update_time)
+    last_update_time = session.query(Post).limit(1000).with_entities(Post.creatAt).all()
+    last_update_time = max(x["createAt"].strftime("%Y-%m-%d %H:%M:%S") for x in last_update_time)
 
     friends_num = session.query(Friend).count()
     active_num = session.query(Friend).filter_by(error=False).count()
@@ -243,7 +243,7 @@ def query_post_json(jsonlink, list, start, end, rule):
 
     posts.sort(key=lambda x: getattr(x, rule), reverse=True)
     post_num = len(posts)
-    last_update_time = max(x.createdAt.strftime("%Y-%m-%d %H:%M:%S") for x in posts)
+    last_update_time = max(x.createAt.strftime("%Y-%m-%d %H:%M:%S") for x in posts)
 
     if end == -1:
         end = min(post_num, 1000)
