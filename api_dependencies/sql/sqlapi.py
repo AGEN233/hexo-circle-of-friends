@@ -48,7 +48,7 @@ def query_all(li, start: int = 0, end: int = -1, rule: str = "updated"):
 
     posts = session.query(Post).order_by(desc(rule)).offset(start).limit(end - start).all()
     last_update_time = session.query(Post).limit(1000).with_entities(
-        Post.created).all()
+        Post.createAt).all()
     last_update_time = max(x["createdAt"].strftime("%Y-%m-%d %H:%M:%S") for x in last_update_time)
 
     friends_num = session.query(Friend).count()
